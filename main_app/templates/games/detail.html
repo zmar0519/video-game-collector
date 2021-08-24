@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link 
+  rel="stylesheet" 
+  type="text/css" 
+  href="{% static 'css/game-detail.css' %}"
+/>
+{% endblock %}
+
+{% block content %}
+
+<section class="game-container">
+  <div class="games-detail">
+    <h1>{{ game.name }}</h1>
+    <h2>{{ game.genre }}</h2>
+    <h2>{{ game.description }}</h2>
+    <div class="game-actions">
+      <a href="{% url 'games_update' game.id %}" class="btn warn">Edit</a>
+      <a href="{% url 'games_delete' game.id %}" class="btn danger">Delete</a>
+    </div>
+
+    <h2>Released in {{ game.releaseDate }}</h2>
+  </div>
+</section>
+</div>
+  </div>
+</section>
+{% comment %} Existing cat-container above {% endcomment %}
+<div class="reviews-container">
+  <section class="reviews">
+    <div class="subsection-title">
+      <h3>Past Reviews</h3>
+    {% if game.review_set.all.count %}
+      <table>
+        <thead>
+          <tr><th>Date</th><th>Review</th></tr>
+        </thead>
+        <tbody>
+          {% for review in game.review_set.all %}
+            <tr>
+              <td>{{review.date}}</td>
+              <td>{{review.get_review_display}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="subsection-section">{{cat.name}} has never been fed 😟</p>
+    {% endif %}
+      {% csrf_token %}
+      {{ review_form.as_p }}
+      <button type="submit" class="btn submit">Add Review</button>
+    </form>
+    <h3>Past Reviews</h3>
+    <table>
+      <thead>
+        <tr><th>Name</th><th>Review</th></tr>
+      </thead>
+      <tbody>
+        {% for reviews in game.reivew_set.all %}
+          <tr>
+            <td>{{review.name}}</td>
+            <td>{{review.get_review_display}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+</div>
+
+{% endblock %}
